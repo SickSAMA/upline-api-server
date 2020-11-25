@@ -1,0 +1,5 @@
+# prevent vscode eslint extention linting js files
+**/*.js
+node_modules
+build
+src/migrations
