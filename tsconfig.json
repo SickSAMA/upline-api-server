@@ -5,8 +5,6 @@
     "module": "commonjs",
     "allowJs": true,
     "sourceMap": true,
-    "rootDir": "src",
-    "outDir": "build",
     "strict": true,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false, // for type-graphql and typeorm
@@ -17,6 +15,5 @@
     "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  },
-  "include": ["src"] // https://github.com/microsoft/TypeScript/issues/9858#issuecomment-370443762
+  }
 }

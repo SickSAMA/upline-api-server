@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "cross-env NODE_ENV=production rimraf build && tsc",
-    "start": "cross-env NODE_ENV=production node -r dotenv/config build/index.js",
+    "build": "cross-env NODE_ENV=production rimraf build && tsc -p src/tsconfig.json",
+    "build:test": "npm run build && tsc -p test/tsconfig.json",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config build/src/index.js",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "npm run lint --fix",
     "prettify": "prettier --write .",
-    "test": "jest",
-    "test:fix": "jest -u",
-    "test:watch": "jest --watch",
+    "test": "jest -c jest.config.js",
+    "test:fix": "npm run test -u",
+    "test:watch": "npm run test --watch",
+    "test:build": "jest -c jest.build.config.js",
     "db-migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
     "db-migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n",
     "db-migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
@@ -24,11 +26,11 @@
     ],
     "ext": ".ts,.js",
     "ignore": [],
-    "exec": "cross-env NODE_ENV=development ts-node -r dotenv/config ./src/index.ts"
+    "exec": "cross-env NODE_ENV=development ts-node --project src/tsconfig.json -r dotenv/config src/index.ts"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test && yarn prettify && lint-staged"
+      "pre-commit": "npm run test && npm run prettify && lint-staged"
     }
   },
   "lint-staged": {
