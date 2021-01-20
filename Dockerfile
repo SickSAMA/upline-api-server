@@ -1,3 +1,5 @@
+ARG PORT
+
 # Stage 1: install dependencies and build app
 FROM node:14.15.4-alpine AS build_image
 
@@ -28,6 +30,6 @@ COPY --from=build_image /usr/src/app/node_modules ./node_modules
 ## Use non-root user node come with node-alpine for security reasons
 USER node
 
-EXPOSE 5000
+EXPOSE ${PORT}
 
-CMD [ "node", "build/index.js"]
+CMD [ "node", "build/src/index.js"]
