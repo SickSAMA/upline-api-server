@@ -60,65 +60,16 @@
   "placementConstraints": [],
   "memory": "512",
   "taskRoleArn": "arn:aws:iam::139306566615:role/ecsTaskExecutionRole",
-  "compatibilities": ["EC2", "FARGATE"],
-  "taskDefinitionArn": "arn:aws:ecs:us-west-2:139306566615:task-definition/github-actions-docker-deploy-task-definition:1",
+  "compatibilities": [],
+  "taskDefinitionArn": null,
   "family": "github-actions-docker-deploy-task-definition",
-  "requiresAttributes": [
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "ecs.capability.execution-role-awslogs"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "com.amazonaws.ecs.capability.ecr-auth"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "com.amazonaws.ecs.capability.task-iam-role"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "ecs.capability.execution-role-ecr-pull"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-    },
-    {
-      "targetId": null,
-      "targetType": null,
-      "value": null,
-      "name": "ecs.capability.task-eni"
-    }
-  ],
+  "requiresAttributes": [],
   "pidMode": null,
   "requiresCompatibilities": ["FARGATE"],
   "networkMode": "awsvpc",
   "cpu": "256",
-  "revision": 1,
-  "status": "ACTIVE",
+  "revision": null,
+  "status": null,
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
   "volumes": []
