@@ -1,5 +1,3 @@
-ARG PORT
-
 # Stage 1: install dependencies and build app
 FROM node:14.15.4-alpine AS build_image
 
@@ -30,6 +28,5 @@ COPY --from=build_image /usr/src/app/node_modules ./node_modules
 ## Use non-root user node come with node-alpine for security reasons
 USER node
 
-EXPOSE ${PORT}
-
-CMD [ "node", "build/src/index.js"]
+# https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
+ENTRYPOINT ["node", "build/src/index.js"]
