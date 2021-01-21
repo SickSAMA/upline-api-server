@@ -63,7 +63,7 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
-        uses: SickSAMA/amazon-ecs-render-task-definition@v1.1
+        uses: SickSAMA/amazon-ecs-render-task-definition@v1.1.1
         with:
           task-definition: task-definition.json
           container-name: upline-api-server
