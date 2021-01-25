@@ -73,7 +73,7 @@ jobs:
           container-name: upline-api-server
           image: ${{ steps.build-image.outputs.image }}
           environment: |-
-            PORT: $PORT
+            PORT: ${{ PORT }}
             NODE_ENV: production
             DB_HOST: ${{ secrets.AWS_RDS_HOST }}
             DB_PORT: 5432
@@ -81,7 +81,7 @@ jobs:
             DB_PASSWORD: ${{ secrets.AWS_RDS_PASSWORD }}
             DB_NAME: postgres
           port-mappings: |-
-            $PORT:$PORT/tcp
+            ${{ PORT }}:${{ PORT }}/tcp
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
