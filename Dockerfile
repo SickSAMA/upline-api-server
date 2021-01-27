@@ -1,3 +1,4 @@
+# This file is used to build docker image in deployment pipeline
 # Stage 1: install dependencies and build app
 FROM node:14.15.4-alpine AS build_image
 

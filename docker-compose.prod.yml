@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  prod-server:
+    build:
+      context: .
+      dockerfile: 'Dockerfile.local.prod'
+    depends_on:
+      - postgres
+    ports:
+      - '${PORT}:${PORT}'
