@@ -10,7 +10,7 @@ import { seedDatabase } from './helpers';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
 
-import { dbHost, dbPort, dbUser, dbPassword, dbName } from './config';
+import { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } from './config';
 
 export interface Context {
   user: User
@@ -21,11 +21,11 @@ export async function createApolloServer(): Promise<ApolloServer> {
 
   await TypeORM.createConnection({
     type: 'postgres',
-    host: dbHost,
-    port: dbPort,
-    username: dbUser,
-    password: dbPassword,
-    database: dbName,
+    host: DB_HOST,
+    port: DB_PORT,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
     entities: [Recipe, Rate, User],
     synchronize: true,
     logging: 'all',
@@ -42,10 +42,10 @@ export async function createApolloServer(): Promise<ApolloServer> {
 
   return new ApolloServer({
     schema,
-    context: (/* { req } */) => {
+    context: (/* { req } */): Context => {
       // We can use req to retrieve the real user
       // Here we just use the defaultUser for demo purpose
-      return { defaultUser };
+      return { user: defaultUser };
     },
   });
 }

@@ -20,7 +20,7 @@ module.exports = {
     'new-cap': ['error', { capIsNew: false }],
     'max-len': [
       'error',
-      100,
+      120,
       2,
       {
         ignoreUrls: true,
