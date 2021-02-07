@@ -30,4 +30,4 @@ COPY --from=build_image /usr/src/app/node_modules ./node_modules
 USER node
 
 # https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
-ENTRYPOINT ["node", "build/src/index.js"]
+ENTRYPOINT ["node", "build/index.js"]

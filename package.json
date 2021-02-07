@@ -5,18 +5,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "rimraf build && tsc -p src/tsconfig.json",
-    "build:test": "npm run build && tsc -p test/tsconfig.json",
-    "start": "cross-env NODE_ENV=production node -r dotenv/config build/src/index.js",
+    "build": "rimraf build && tsc",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config build/index.js",
     "docker-up:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build",
     "docker-up:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "prettify": "prettier --write .",
-    "test": "jest -c jest.config.js",
-    "test:fix": "npm run test -- -u",
-    "test:watch": "npm run test -- --watch",
-    "test:build": "jest -c jest.build.config.js",
+    "test": "jest",
+    "test:fix": "jest -u",
+    "test:watch": "jest --watch",
     "db-migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
     "db-migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n",
     "db-migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
@@ -28,7 +26,7 @@
     ],
     "ext": ".ts,.js",
     "ignore": [],
-    "exec": "cross-env NODE_ENV=development ts-node --project src/tsconfig.json -r dotenv/config src/index.ts"
+    "exec": "cross-env NODE_ENV=development ts-node --files -r dotenv/config src/index.ts"
   },
   "husky": {
     "hooks": {
