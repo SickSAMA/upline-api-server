@@ -80,6 +80,7 @@ jobs:
             DB_USER: ${{ secrets.AWS_RDS_USER }}
             DB_PASSWORD: ${{ secrets.AWS_RDS_PASSWORD }}
             DB_NAME: postgres
+            DEPLOYMENT_ENV: Staging
           port-mappings: |-
             ${{ env.PORT }}:${{ env.PORT }}/tcp
       - name: Deploy Amazon ECS task definition

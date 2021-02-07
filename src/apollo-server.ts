@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
 import * as TypeORM from 'typeorm';
 import * as TypeGraphQL from 'type-graphql';
 import { Container } from 'typedi';
@@ -10,7 +10,7 @@ import { seedDatabase } from './helpers';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
 
-import { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } from './config';
+import { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DEPLOYMENT_ENV } from './config';
 
 export interface Context {
   user: User
@@ -40,12 +40,19 @@ export async function createApolloServer(): Promise<ApolloServer> {
     container: Container,
   });
 
-  return new ApolloServer({
+  const apolloServerConig: ApolloServerExpressConfig = {
     schema,
     context: (/* { req } */): Context => {
       // We can use req to retrieve the real user
       // Here we just use the defaultUser for demo purpose
       return { user: defaultUser };
     },
-  });
+  };
+
+  if (DEPLOYMENT_ENV !== 'Production') {
+    apolloServerConig.introspection = true;
+    apolloServerConig.playground = true;
+  }
+
+  return new ApolloServer(apolloServerConig);
 }

@@ -25,3 +25,9 @@ create a new `.env` in the root folder and copy the content from `.env.example` 
 `npm run build`
 
 `npm run start`
+
+## Create New Env
+
+1. add new env in `.env` and `.env.example`
+2. add new env in `CICD.yml`
+3. add new env in `config.ts`

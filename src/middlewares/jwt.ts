@@ -75,7 +75,7 @@ const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
 
 const verifyPromised = promisify<string, jsonwebtoken.Secret>(jsonwebtoken.verify.bind(jsonwebtoken));
 
-const AUTH_KEY = 'authorization';
+export const AUTH_KEY = 'authorization';
 
 const middleware = (): RequestHandler => {
   const handler: RequestHandler = async (req, _, next) => {
