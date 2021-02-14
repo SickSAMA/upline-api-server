@@ -37,16 +37,22 @@ interface Claim {
   auth_time: number;
   iss: string;
   exp: number;
-  username: string;
-  client_id: string;
+  ['cognito:username']: string;
 }
 
-export interface ClaimVerifyResult {
-  readonly userName: string;
-  readonly clientId: string;
-  readonly isValid: boolean;
-  readonly error?: any;
+export interface User {
+  readonly username: string;
 }
+
+/* extend global Express types */
+declare global {
+  namespace Express {
+    interface Request {
+      user?: User,
+    }
+  }
+}
+
 /* eslint-enable */
 
 interface TokenHeader {
@@ -93,21 +99,20 @@ const middleware = (): RequestHandler => {
       }
     }
 
-    if (!(req.headers && req.headers[AUTH_KEY])) {
+    const authValue = req.headers?.[AUTH_KEY];
+    if (typeof authValue === 'undefined') {
       return next();
     }
 
-    let result: ClaimVerifyResult;
+    let result: User;
     try {
-      console.log(`user claim verify invoked for ${JSON.stringify(req)}`);
-
-      const token = req.headers[AUTH_KEY];
+      const token = authValue.replace(/^Bearer /, '');
       const tokenSections = (token || '').split('.');
       if (tokenSections.length < 2) {
         throw new UnauthorizedError('requested token is invalid');
       }
       const headerJSON = Buffer.from(tokenSections[0], 'base64').toString('utf8');
-      const header = JSON.parse(headerJSON) as TokenHeader;
+      const header: TokenHeader = JSON.parse(headerJSON);
       const keys = await getPublicKeys();
       const key = keys[header.kid];
       if (key === undefined) {
@@ -123,18 +128,16 @@ const middleware = (): RequestHandler => {
       if (claim.iss !== cognitoIssuer) {
         throw new UnauthorizedError('claim issuer is invalid');
       }
-      if (claim.token_use !== 'access') {
+      if (claim.token_use !== 'id') {
         throw new UnauthorizedError('claim use is not access');
       }
 
-      console.log(`claim confirmed for ${claim.username}`);
+      console.log(`claim confirmed for ${claim['cognito:username']}`);
 
-      result = { userName: claim.username, clientId: claim.client_id, isValid: true };
+      result = { username: claim['cognito:username'] };
       req.user = result;
       next();
     } catch (error) {
-      result = { userName: '', clientId: '', error, isValid: false };
-      req.user = result;
       next(error);
     }
   };

@@ -1,6 +1,6 @@
-import { Paginatable } from './types/Paginatable';
+import { Paginatable } from '../types/Paginatable';
 
-export function paginateResults<T extends Paginatable>({
+export default function paginateResults<T extends Paginatable>({
   after: cursor,
   pageSize = 2,
   results,

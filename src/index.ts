@@ -5,10 +5,12 @@ import cookieParser from 'cookie-parser';
 import { createApolloServer } from './apollo-server';
 import jwt from './middlewares/jwt';
 import { PORT } from './config';
+import cors from 'cors';
 
 const app = express();
 
 // Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());

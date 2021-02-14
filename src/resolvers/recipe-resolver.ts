@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver, Int } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver, Int, Authorized } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -11,6 +11,7 @@ export class RecipeResolver {
     @InjectRepository(Recipe) private readonly recipeRepository: Repository<Recipe>,
   ) {}
 
+  @Authorized()
   @Query(() => Recipe, { nullable: true })
   recipe(@Arg('recipeId', () => Int) recipeId: number): Promise<Recipe | undefined> {
     return this.recipeRepository.findOne(recipeId, {

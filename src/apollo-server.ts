@@ -2,6 +2,7 @@ import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
 import * as TypeORM from 'typeorm';
 import * as TypeGraphQL from 'type-graphql';
 import { Container } from 'typedi';
+import authChecker from './utils/authChecker';
 
 import { User } from './entities/user';
 import { Recipe } from './entities/recipe';
@@ -9,12 +10,9 @@ import { Rate } from './entities/rate';
 import { seedDatabase } from './helpers';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
+import { RequestContext } from './types/RequestContext';
 
 import { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DEPLOYMENT_ENV } from './config';
-
-export interface Context {
-  user: User
-}
 
 export async function createApolloServer(): Promise<ApolloServer> {
   TypeORM.useContainer(Container);
@@ -33,19 +31,18 @@ export async function createApolloServer(): Promise<ApolloServer> {
     cache: true,
   });
 
-  const { defaultUser } = await seedDatabase();
+  await seedDatabase();
 
   const schema = await TypeGraphQL.buildSchema({
     resolvers: [RecipeResolver, RateResolver],
     container: Container,
+    authChecker,
   });
 
   const apolloServerConig: ApolloServerExpressConfig = {
     schema,
-    context: (/* { req } */): Context => {
-      // We can use req to retrieve the real user
-      // Here we just use the defaultUser for demo purpose
-      return { user: defaultUser };
+    context: ({ req }): RequestContext => {
+      return { user: req.user };
     },
   };
 

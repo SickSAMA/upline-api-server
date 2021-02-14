@@ -10,13 +10,5 @@ export class User {
 
   @Field()
   @Column()
-  email: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  nickname?: string;
-
-  @Field()
-  @Column()
-  password: string;
+  username: string;
 }

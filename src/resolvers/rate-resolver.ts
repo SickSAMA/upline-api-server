@@ -6,8 +6,8 @@ import { Rate } from '../entities/rate';
 import { Recipe } from '../entities/recipe';
 import { RateInput } from './types/rate-input';
 import { RateConnection } from './types/rate-connection';
-import { Context } from '../apollo-server';
-import { paginateResults } from '../utils';
+import { RequestContext } from '../types/RequestContext';
+import paginateResults from '../utils/paginateResults';
 
 @Resolver()
 export class RateResolver {
@@ -55,7 +55,7 @@ export class RateResolver {
   @Mutation(() => Rate)
   async addRate(
     @Arg('rate') rateInput: RateInput,
-    @Ctx() { user }: Context,
+    @Ctx() { user }: RequestContext,
   ): Promise<Rate> {
     const recipe = await this.recipeRepository.findOne(rateInput.recipeId);
 
