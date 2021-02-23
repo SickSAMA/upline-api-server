@@ -31,3 +31,15 @@ create a new `.env` in the root folder and copy the content from `.env.example` 
 1. add new env in `.env` and `.env.example`
 2. add new env in `CICD.yml`
 3. add new env in `config.ts`
+
+## Migrate DB
+
+#### Create Migration
+
+`npm run migrate-db:generate ${name}`
+
+#### Run or Revert Migrations
+
+`npm run migrate-db:run`
+
+`npm run migrate-db:revert`

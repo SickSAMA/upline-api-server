@@ -7,6 +7,7 @@ import authChecker from './utils/authChecker';
 import { User } from './entities/user';
 import { Recipe } from './entities/recipe';
 import { Rate } from './entities/rate';
+import { Resume } from './entities/resume';
 import { seedDatabase } from './helpers';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
@@ -24,10 +25,10 @@ export async function createApolloServer(): Promise<ApolloServer> {
     username: DB_USER,
     password: DB_PASSWORD,
     database: DB_NAME,
-    entities: [Recipe, Rate, User],
-    synchronize: true,
+    entities: [Recipe, Rate, User, Resume],
+    synchronize: false,
+    dropSchema: false,
     logging: 'all',
-    dropSchema: true,
     cache: true,
   });
 
