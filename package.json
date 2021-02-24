@@ -13,10 +13,10 @@
     "test": "jest",
     "test:fix": "jest -u",
     "test:watch": "jest --watch",
-    "migrate-db:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
-    "migrate-db:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n",
-    "migrate-db:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "migrate-db:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert"
+    "migrate-db:create": "ts-node ./node_modules/typeorm/cli.js -f src/configs/ormconfig.ts migration:create -n",
+    "migrate-db:generate": "ts-node ./node_modules/typeorm/cli.js -f src/configs/ormconfig.ts migration:generate -n",
+    "migrate-db:run": "ts-node ./node_modules/typeorm/cli.js -f src/configs/ormconfig.ts migration:run",
+    "migrate-db:revert": "ts-node ./node_modules/typeorm/cli.js -f src/configs/ormconfig.ts migration:revert"
   },
   "nodemonConfig": {
     "watch": [

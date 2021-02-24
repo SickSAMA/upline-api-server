@@ -30,7 +30,7 @@ create a new `.env` in the root folder and copy the content from `.env.example` 
 
 1. add new env in `.env` and `.env.example`
 2. add new env in `CICD.yml`
-3. add new env in `config.ts`
+3. add new env in `src/configs/env.ts`
 
 ## Migrate DB
 
@@ -43,3 +43,9 @@ create a new `.env` in the root folder and copy the content from `.env.example` 
 `npm run migrate-db:run`
 
 `npm run migrate-db:revert`
+
+## Update Node Version
+
+1. `CICD.yml` Build job node version
+2. `Dockerfile` Node image version
+3. `migrate-db-*.yml` Test job container node version

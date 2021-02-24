@@ -4,7 +4,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { createApolloServer } from './apollo-server';
 import jwt from './middlewares/jwt';
-import { PORT } from './config';
+import { PORT } from './configs/env';
 import cors from 'cors';
 
 const app = express();

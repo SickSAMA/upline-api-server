@@ -4,7 +4,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import jwkToPem from 'jwk-to-pem';
 import { RequestHandler } from 'express';
 import UnauthorizedError from '../errors/UnauthorizedError';
-import { COGNITO_POOL_ID, COGNITO_POOL_REGION } from '../config';
+import { COGNITO_POOL_ID, COGNITO_POOL_REGION } from '../configs/env';
 
 /**
  * Decode the Amazon Cognito ID token to retrieve the user info. Reference:
