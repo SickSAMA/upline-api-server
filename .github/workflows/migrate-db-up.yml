@@ -18,14 +18,20 @@ jobs:
     name: Test db migration using all migration files
     runs-on: ubuntu-latest
     container: node:14.15.4-alpine
+    env:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: pass
+      DB_NAME: upline
     services:
       # Label used to access the service container
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: pass
-          POSTGRES_DB: upline
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -46,18 +52,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run DB migration
-        env:
-          DB_HOST: postgres
-          DB_PORT: 5432
-          DB_USER: postgres
-          DB_PASSWORD: pass
-          DB_NAME: upline
         run: >
-          DB_HOST=$DB_HOST
-          DB_PORT=5432
-          DB_USER=$DB_USER
-          DB_PASSWORD=$DB_PASSWORD
-          DB_NAME=$DB_NAME
+          DB_HOST=${{ env.DB_HOST }}
+          DB_PORT=${{ env.DB_PORT }}
+          DB_USER=${{ env.DB_USER }}
+          DB_PASSWORD=${{ env.DB_PASSWORD }}
+          DB_NAME=${{ env.DB_NAME }}
           npm run migrate-db:run
 
   DeployStaging:

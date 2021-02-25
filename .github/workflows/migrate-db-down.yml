@@ -53,19 +53,19 @@ jobs:
         run: npm ci
       - name: Run db migration
         run: >
-          DB_HOST=${{ DB_HOST }}
-          DB_PORT=${{ DB_PORT }}
-          DB_USER=${{ DB_USER }}
-          DB_PASSWORD=${{ DB_PASSWORD }}
-          DB_NAME=${{ DB_NAME }}
+          DB_HOST=${{ env.DB_HOST }}
+          DB_PORT=${{ env.DB_PORT }}
+          DB_USER=${{ env.DB_USER }}
+          DB_PASSWORD=${{ env.DB_PASSWORD }}
+          DB_NAME=${{ env.DB_NAME }}
           npm run migrate-db:run
       - name: Revert db migration
         run: >
-          DB_HOST=${{ DB_HOST }}
-          DB_PORT=${{ DB_PORT }}
-          DB_USER=${{ DB_USER }}
-          DB_PASSWORD=${{ DB_PASSWORD }}
-          DB_NAME=${{ DB_NAME }}
+          DB_HOST=${{ env.DB_HOST }}
+          DB_PORT=${{ env.DB_PORT }}
+          DB_USER=${{ env.DB_USER }}
+          DB_PASSWORD=${{ env.DB_PASSWORD }}
+          DB_NAME=${{ env.DB_NAME }}
           npm run migrate-db:revert
 
   DeployStaging:
