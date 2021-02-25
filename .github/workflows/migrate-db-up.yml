@@ -66,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Staging
+    env:
+      SNAPSHOT_NAME: snapshot-${{ github.sha }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -73,20 +75,24 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
+      - name: Check whether the snapshot for this commit exits
+        id: snapshot-existence-check
+        continue-on-error: true
+        run: |
+          echo "::set-output name=existing::false"
+          aws rds describe-db-snapshots --db-snapshot-identifier ${{ env.SNAPSHOT_NAME }}
+          echo "::set-output name=existing::true"
       - name: Backup target DB
+        if: steps.snapshot-existence-check.outputs.existing == 'false'
         env:
           DB_INSTANCE_NAME: upline-db-stag
-          SNAPSHOT_NAME: ${{ github.sha }}
         run: >
           aws rds create-db-snapshot
           --db-instance-identifier $DB_INSTANCE_NAME
-          --db-snapshot-identifier snapshot-$SNAPSHOT_NAME
+          --db-snapshot-identifier ${{ env.SNAPSHOT_NAME }}
       - name: Wait until snapshot is created successfully
-        env:
-          SNAPSHOT_NAME: ${{ github.sha }}
-        run: >
-          aws rds wait db-snapshot-completed
-          --db-snapshot-identifier snapshot-$SNAPSHOT_NAME
+        if: steps.snapshot-existence-check.outputs.existing == 'false'
+        run: aws rds wait db-snapshot-completed --db-snapshot-identifier ${{ env.SNAPSHOT_NAME }}
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Cache npm caches
