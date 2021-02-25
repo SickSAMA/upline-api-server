@@ -80,7 +80,7 @@ jobs:
         run: >
           aws rds create-db-snapshot
           --db-instance-identifier $DB_INSTANCE_NAME
-          --db-snapshot-identifier $SNAPSHOT_NAME
+          --db-snapshot-identifier snapshot-$SNAPSHOT_NAME
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Cache npm caches
