@@ -81,6 +81,12 @@ jobs:
           aws rds create-db-snapshot
           --db-instance-identifier $DB_INSTANCE_NAME
           --db-snapshot-identifier snapshot-$SNAPSHOT_NAME
+      - name: Wait until snapshot is created successfully
+        env:
+          SNAPSHOT_NAME: ${{ github.sha }}
+        run: >
+          aws rds wait db-snapshot-completed
+          --db-snapshot-identifier snapshot-$SNAPSHOT_NAME
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Cache npm caches
