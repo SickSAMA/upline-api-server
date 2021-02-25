@@ -1,4 +1,4 @@
-export const NODE_ENV: string = process.env.NODE_ENV || '';
+export const NODE_ENV: string = process.env.NODE_ENV || 'development';
 export const PORT: string = process.env.PORT || '';
 export const DB_HOST: string = process.env.DB_HOST || '';
 export const DB_PORT: number = (process.env.DB_PORT && +process.env.DB_PORT) || 5432;

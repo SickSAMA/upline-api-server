@@ -1,9 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-import { DB_HOST, DB_PORT, DB_PASSWORD, DB_NAME, DB_USER } from './env';
-import { User } from '../entities/user';
-import { Recipe } from '../entities/recipe';
-import { Rate } from '../entities/rate';
-import { Resume } from '../entities/resume';
+import { DB_HOST, DB_PORT, DB_PASSWORD, DB_NAME, DB_USER, NODE_ENV } from './env';
 
 export function getORMConfig(isMigration = false): ConnectionOptions {
   let options: ConnectionOptions = {
@@ -13,12 +9,23 @@ export function getORMConfig(isMigration = false): ConnectionOptions {
     username: DB_USER,
     password: DB_PASSWORD,
     database: DB_NAME,
-    entities: [Recipe, Rate, User, Resume],
     synchronize: false,
     dropSchema: false,
     logging: 'all',
     cache: true,
   };
+
+  if (NODE_ENV === 'production') {
+    options = {
+      ...options,
+      entities: ['build/entities/*.js'],
+    };
+  } else {
+    options = {
+      ...options,
+      entities: ['src/entities/*.ts'],
+    };
+  }
 
   if (isMigration) {
     options = {
