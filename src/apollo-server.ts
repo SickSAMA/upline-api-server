@@ -5,9 +5,10 @@ import { Container } from 'typedi';
 import authChecker from './utils/authChecker';
 
 import { seedDatabase } from './helpers';
+import { RequestContext } from './types/RequestContext';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
-import { RequestContext } from './types/RequestContext';
+import { ResumeResolver } from './resolvers/resume-resolver';
 
 import { DEPLOYMENT_ENV } from './configs/env';
 import { getORMConfig } from './configs/ormconfig';
@@ -20,7 +21,7 @@ export async function createApolloServer(): Promise<ApolloServer> {
   await seedDatabase();
 
   const schema = await TypeGraphQL.buildSchema({
-    resolvers: [RecipeResolver, RateResolver],
+    resolvers: [RecipeResolver, RateResolver, ResumeResolver],
     container: Container,
     authChecker,
   });

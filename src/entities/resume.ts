@@ -1,58 +1,57 @@
 /* eslint-disable camelcase */
-import { ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
-interface Experience {
-  entity: string;
-  city: string;
-  country: string;
-  summary: string;
-  start_date: string;
-  end_date: string;
-  details: string[];
-}
-
-interface Skill {
-  key: string;
-  value: string;
-}
+import { Experience } from './experience';
+import { Skill } from './skill';
 
 @ObjectType()
 @Entity()
 export class Resume {
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   name: string;
 
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   english_name: string;
 
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   phone: string;
 
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   email: string;
 
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   address: string;
 
-  @Column({ type: 'jsonb', array: true, default: '{}' })
+  @Field(() => [Experience], { nullable: 'items' })
+  @Column({ type: 'jsonb', array: false, default: '[]' })
   education: Experience[];
 
-  @Column({ type: 'jsonb', array: true, default: '{}' })
+  @Field(() => [Experience], { nullable: 'items' })
+  @Column({ type: 'jsonb', array: false, default: '[]' })
   professional_experience: Experience[];
 
-  @Column({ type: 'jsonb', array: true, default: '{}' })
+  @Field(() => [Experience], { nullable: 'items' })
+  @Column({ type: 'jsonb', array: false, default: '[]' })
   leadership_experience: Experience[];
 
-  @Column({ type: 'jsonb', array: true, default: '{}' })
+  @Field(() => [Skill], { nullable: 'items' })
+  @Column({ type: 'jsonb', array: false, default: '[]' })
   others: Skill[];
 
+  @Field(() => Date)
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
+  @Field(() => Date)
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 }
