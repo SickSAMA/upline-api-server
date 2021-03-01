@@ -4,8 +4,8 @@ import { Skill } from '../../entities/skill';
 @InputType()
 export class SkillInput implements Skill {
   @Field(() => String, { nullable: true })
-  key: string;
+  key?: string;
 
   @Field(() => String, { nullable: true })
-  value: string;
+  value?: string;
 }

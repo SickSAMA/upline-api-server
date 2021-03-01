@@ -11,25 +11,29 @@ export class Resume {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  name: string;
+  @Field(() => String)
+  @Column({ type: 'text' })
+  owner: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
-  english_name: string;
+  name?: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
-  phone: string;
+  english_name?: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
-  email: string;
+  phone?: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
-  address: string;
+  email?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'text', nullable: true })
+  address?: string;
 
   @Field(() => [Experience], { nullable: 'items' })
   @Column({ type: 'jsonb', array: false, default: '[]' })

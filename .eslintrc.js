@@ -30,5 +30,6 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 };

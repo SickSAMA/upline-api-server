@@ -6,7 +6,7 @@ const authChecker: AuthChecker<RequestContext> = ({ context }) => {
   // and check his permission in the db against the `roles` argument
   // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 
-  return !!context.user;
+  return !!context.user?.username;
 };
 
 export default authChecker;

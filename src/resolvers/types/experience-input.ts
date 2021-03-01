@@ -5,22 +5,22 @@ import { Experience } from '../../entities/experience';
 @InputType()
 export class ExperienceInput implements Partial<Experience> {
   @Field(() => String, { nullable: true })
-  entity: string;
+  entity?: string;
 
   @Field(() => String, { nullable: true })
-  city: string;
+  city?: string;
 
   @Field(() => String, { nullable: true })
-  country: string;
+  country?: string;
 
   @Field(() => String, { nullable: true })
-  summary: string;
+  summary?: string;
 
   @Field(() => String, { nullable: true })
-  start_date: string;
+  start_date?: string;
 
   @Field(() => String, { nullable: true })
-  end_date: string;
+  end_date?: string;
 
   @Field(() => [String], { nullable: 'items' })
   details: string[];
