@@ -1,5 +1,6 @@
-import { Arg, Mutation, Query, Resolver, Int, Authorized, Ctx } from 'type-graphql';
-import { Repository } from 'typeorm';
+import { response } from 'express';
+import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from 'type-graphql';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { Resume } from '../entities/resume';
@@ -14,8 +15,8 @@ export class ResumeResolver {
 
   @Authorized()
   @Query(() => Resume, { nullable: true })
-  resume(@Arg('id', () => Int) id: number): Promise<Resume | undefined> {
-    return this.resumeRepository.findOne(id);
+  resume(@Arg('uuid', () => String) uuid: string): Promise<Resume | undefined> {
+    return this.resumeRepository.findOne({ uuid });
   }
 
   @Authorized()
@@ -26,12 +27,24 @@ export class ResumeResolver {
 
   @Authorized()
   @Mutation(() => Resume)
-  saveResume(
+  async saveResume(
     @Arg('resume') resumeInput: ResumeInput,
     @Ctx() { user }: RequestContext,
   ): Promise<Resume> {
     resumeInput.owner = user!.username;
     const resume = this.resumeRepository.create(resumeInput);
+
+    if (resumeInput.uuid) {
+      const existingResume = await this.resumeRepository.findOne({ uuid: resumeInput.uuid });
+      if (existingResume) {
+        resume.id = existingResume.id;
+      }
+    }
+
+    /**
+     * TODO: due to the limitaiton of typeorm, we have to use 'save' to return the entity, which
+     * is not efficient for 'update' operation because 'save' will select by id again.
+     */
     return this.resumeRepository.save(resume);
   }
 }

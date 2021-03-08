@@ -132,7 +132,7 @@ const middleware = (): RequestHandler => {
         throw new UnauthorizedError('claim use is not access');
       }
 
-      console.log(`claim confirmed for ${claim['cognito:username']}`);
+      // console.log(`claim confirmed for ${claim['cognito:username']}`);
 
       result = { username: claim['cognito:username'] };
       req.user = result;

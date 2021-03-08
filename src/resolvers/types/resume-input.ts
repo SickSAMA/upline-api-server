@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
-import { Field, InputType, ID } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 import { Resume } from '../../entities/resume';
 import { ExperienceInput } from './experience-input';
 import { SkillInput } from './skill-input';
 
 @InputType()
 export class ResumeInput implements Partial<Resume> {
-  @Field(() => ID, { nullable: true })
-  id?: number;
+  @Field(() => String, { nullable: true })
+  uuid?: string;
 
   @Field(() => String, { nullable: true })
   owner?: string;

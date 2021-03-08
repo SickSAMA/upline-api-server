@@ -1,15 +1,20 @@
 /* eslint-disable camelcase */
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Field, ObjectType, Int } from 'type-graphql';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Generated } from 'typeorm';
 import { Experience } from './experience';
 import { Skill } from './skill';
 
 @ObjectType()
 @Entity()
 export class Resume {
-  @Field(() => ID)
+  @Field(() => Int)
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Field(() => String)
+  @Column()
+  @Generated('uuid')
+  uuid: string;
 
   @Field(() => String)
   @Column({ type: 'text' })
