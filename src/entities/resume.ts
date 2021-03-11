@@ -20,25 +20,25 @@ export class Resume {
   @Column({ type: 'text' })
   owner: string;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  name?: string;
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
+  name: string;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  english_name?: string;
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
+  english_name: string;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  phone?: string;
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
+  phone: string;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  email?: string;
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
+  email: string;
 
-  @Field(() => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  address?: string;
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
+  address: string;
 
   @Field(() => [Experience], { nullable: 'items' })
   @Column({ type: 'jsonb', array: false, default: '[]' })

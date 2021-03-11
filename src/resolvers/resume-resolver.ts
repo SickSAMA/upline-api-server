@@ -1,6 +1,5 @@
-import { response } from 'express';
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from 'type-graphql';
-import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { Resume } from '../entities/resume';

@@ -8,23 +8,23 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Experience {
-  @Field(() => String, { nullable: true })
-  entity?: string;
+  @Field(() => String)
+  entity: string;
 
-  @Field(() => String, { nullable: true })
-  city?: string;
+  @Field(() => String)
+  city: string;
 
-  @Field(() => String, { nullable: true })
-  country?: string;
+  @Field(() => String)
+  country: string;
 
-  @Field(() => String, { nullable: true })
-  summary?: string;
+  @Field(() => String)
+  summary: string;
 
-  @Field(() => String, { nullable: true })
-  start_date?: string;
+  @Field(() => String)
+  start_date: string;
 
-  @Field(() => String, { nullable: true })
-  end_date?: string;
+  @Field(() => String)
+  end_date: string;
 
   @Field(() => [String], { nullable: 'items' })
   details: string[];

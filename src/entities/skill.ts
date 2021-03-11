@@ -7,9 +7,9 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Skill {
-  @Field(() => String, { nullable: true })
-  key?: string;
+  @Field(() => String)
+  key: string;
 
-  @Field(() => String, { nullable: true })
-  value?: string;
+  @Field(() => String)
+  value: string;
 }
