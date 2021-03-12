@@ -27,16 +27,15 @@ export class ResumeInput implements Partial<Resume> {
   @Field(() => String, { nullable: true })
   address?: string;
 
-  // Does not allow optional because of the limitation of react-hook-form's useFieldArray
-  @Field(() => [ExperienceInput], { nullable: 'items' })
-  education: ExperienceInput[];
+  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  education?: ExperienceInput[];
 
-  @Field(() => [ExperienceInput], { nullable: 'items' })
-  professional_experience: ExperienceInput[];
+  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  professional_experience?: ExperienceInput[];
 
-  @Field(() => [ExperienceInput], { nullable: 'items' })
-  leadership_experience: ExperienceInput[];
+  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  leadership_experience?: ExperienceInput[];
 
-  @Field(() => [SkillInput], { nullable: 'items' })
-  others: SkillInput[];
+  @Field(() => [SkillInput], { nullable: 'itemsAndList' })
+  others?: SkillInput[];
 }
