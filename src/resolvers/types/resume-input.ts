@@ -27,15 +27,15 @@ export class ResumeInput implements Partial<Resume> {
   @Field(() => String, { nullable: true })
   address?: string;
 
-  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  @Field(() => [ExperienceInput], { nullable: true })
   education?: ExperienceInput[];
 
-  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  @Field(() => [ExperienceInput], { nullable: true })
   professional_experience?: ExperienceInput[];
 
-  @Field(() => [ExperienceInput], { nullable: 'itemsAndList' })
+  @Field(() => [ExperienceInput], { nullable: true })
   leadership_experience?: ExperienceInput[];
 
-  @Field(() => [SkillInput], { nullable: 'itemsAndList' })
+  @Field(() => [SkillInput], { nullable: true })
   others?: SkillInput[];
 }

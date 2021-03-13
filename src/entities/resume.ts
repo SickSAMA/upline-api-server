@@ -40,19 +40,19 @@ export class Resume {
   @Column({ type: 'text', default: '' })
   address: string;
 
-  @Field(() => [Experience], { nullable: 'items' })
+  @Field(() => [Experience])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   education: Experience[];
 
-  @Field(() => [Experience], { nullable: 'items' })
+  @Field(() => [Experience])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   professional_experience: Experience[];
 
-  @Field(() => [Experience], { nullable: 'items' })
+  @Field(() => [Experience])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   leadership_experience: Experience[];
 
-  @Field(() => [Skill], { nullable: 'items' })
+  @Field(() => [Skill])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   others: Skill[];
 

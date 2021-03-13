@@ -26,6 +26,6 @@ export class Experience {
   @Field(() => String)
   end_date: string;
 
-  @Field(() => [String], { nullable: 'items' })
+  @Field(() => [String])
   details: string[];
 }
