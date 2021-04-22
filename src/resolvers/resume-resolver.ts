@@ -1,3 +1,4 @@
+import { ForbiddenError, UserInputError } from 'apollo-server-express';
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
@@ -14,8 +15,17 @@ export class ResumeResolver {
 
   @Authorized()
   @Query(() => Resume, { nullable: true })
-  resume(@Arg('uuid', () => String) uuid: string): Promise<Resume | undefined> {
-    return this.resumeRepository.findOne({ uuid });
+  async resume(
+    @Arg('uuid', () => String) uuid: string,
+    @Ctx() { user }: RequestContext,
+  ): Promise<Resume | undefined> {
+    const resume = await this.resumeRepository.findOne({ uuid, owner: user!.username });
+    console.log(resume);
+    if (resume) {
+      return resume;
+    } else {
+      throw new UserInputError('Resume not found.');
+    }
   }
 
   @Authorized()
@@ -30,7 +40,14 @@ export class ResumeResolver {
     @Arg('resume') resumeInput: ResumeInput,
     @Ctx() { user }: RequestContext,
   ): Promise<Resume> {
-    resumeInput.owner = user!.username;
+    if (resumeInput.owner && resumeInput.owner !== user!.username) {
+      throw new ForbiddenError('Unauthorized action!');
+    }
+
+    if (!resumeInput.owner) {
+      resumeInput.owner = user!.username;
+    }
+
     const resume = this.resumeRepository.create(resumeInput);
 
     if (resumeInput.uuid) {
