@@ -6,6 +6,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Resume } from '../entities/resume';
 import { RequestContext } from '../types/RequestContext';
 import { ResumeInput } from './types/resume-input';
+import { defaultResumeStyleInput } from './types/resume-style-input';
 
 @Resolver(() => Resume)
 export class ResumeResolver {
@@ -54,7 +55,13 @@ export class ResumeResolver {
       const existingResume = await this.resumeRepository.findOne({ uuid: resumeInput.uuid });
       if (existingResume) {
         resume.id = existingResume.id;
+        return this.resumeRepository.save(resume);
       }
+    }
+
+    // when creating a new resume, set default styles
+    if (!resumeInput.styles) {
+      resume.styles = defaultResumeStyleInput;
     }
 
     /**

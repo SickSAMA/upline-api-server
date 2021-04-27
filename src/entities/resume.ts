@@ -3,6 +3,7 @@ import { Field, ObjectType, Int } from 'type-graphql';
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Generated } from 'typeorm';
 import { Experience } from './experience';
 import { Skill } from './skill';
+import { ResumeStyle } from './resume-style';
 
 @ObjectType()
 @Entity()
@@ -40,6 +41,7 @@ export class Resume {
   @Column({ type: 'text', default: '' })
   address: string;
 
+  // without array explicity set to false, typeorm automatically inferred the postgres column type to be jsonb[]
   @Field(() => [Experience])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   education: Experience[];
@@ -55,6 +57,10 @@ export class Resume {
   @Field(() => [Skill])
   @Column({ type: 'jsonb', array: false, default: '[]' })
   others: Skill[];
+
+  @Field(() => ResumeStyle)
+  @Column({ type: 'jsonb', default: '{}' })
+  styles: ResumeStyle;
 
   @Field(() => Date)
   @CreateDateColumn({ type: 'timestamptz' })

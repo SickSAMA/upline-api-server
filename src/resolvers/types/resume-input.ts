@@ -3,6 +3,7 @@ import { Field, InputType } from 'type-graphql';
 import { Resume } from '../../entities/resume';
 import { ExperienceInput } from './experience-input';
 import { SkillInput } from './skill-input';
+import { ResumeStyleInput } from './resume-style-input';
 
 @InputType()
 export class ResumeInput implements Partial<Resume> {
@@ -38,4 +39,7 @@ export class ResumeInput implements Partial<Resume> {
 
   @Field(() => [SkillInput], { nullable: true })
   others?: SkillInput[];
+
+  @Field(() => ResumeStyleInput, { nullable: true })
+  styles?: ResumeStyleInput;
 }
