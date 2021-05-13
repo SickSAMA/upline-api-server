@@ -5,13 +5,17 @@ import { ExperienceInput } from './experience-input';
 import { SkillInput } from './skill-input';
 import { ResumeStyleInput } from './resume-style-input';
 
+/**
+ * Omit id, owner, created_at, updated_at from Resume.
+ */
+
 @InputType()
 export class ResumeInput implements Partial<Resume> {
   @Field(() => String, { nullable: true })
   uuid?: string;
 
   @Field(() => String, { nullable: true })
-  owner?: string;
+  resume_name?: string;
 
   @Field(() => String, { nullable: true })
   name?: string;

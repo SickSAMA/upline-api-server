@@ -6,22 +6,22 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Resume } from '../entities/resume';
 import { RequestContext } from '../types/RequestContext';
 import { ResumeInput } from './types/resume-input';
+import { ResumeOutput } from './types/resume-output';
 import { defaultResumeStyleInput } from './types/resume-style-input';
 
-@Resolver(() => Resume)
+@Resolver(() => ResumeOutput)
 export class ResumeResolver {
   constructor(
     @InjectRepository(Resume) private readonly resumeRepository: Repository<Resume>,
   ) {}
 
   @Authorized()
-  @Query(() => Resume, { nullable: true })
+  @Query(() => ResumeOutput, { nullable: true })
   async resume(
     @Arg('uuid', () => String) uuid: string,
     @Ctx() { user }: RequestContext,
-  ): Promise<Resume | undefined> {
+  ): Promise<ResumeOutput | undefined> {
     const resume = await this.resumeRepository.findOne({ uuid, owner: user!.username });
-    console.log(resume);
     if (resume) {
       return resume;
     } else {
@@ -30,34 +30,34 @@ export class ResumeResolver {
   }
 
   @Authorized()
-  @Query(() => [Resume], { nullable: true })
-  resumes(): Promise<Resume[]> {
-    return this.resumeRepository.find();
+  @Query(() => [ResumeOutput])
+  resumes(
+    @Ctx() { user }: RequestContext,
+  ): Promise<ResumeOutput[]> {
+    return this.resumeRepository.find({ owner: user!.username });
   }
 
   @Authorized()
-  @Mutation(() => Resume)
+  @Mutation(() => ResumeOutput)
   async saveResume(
     @Arg('resume') resumeInput: ResumeInput,
     @Ctx() { user }: RequestContext,
   ): Promise<Resume> {
-    if (resumeInput.owner && resumeInput.owner !== user!.username) {
-      throw new ForbiddenError('Unauthorized action!');
-    }
-
-    if (!resumeInput.owner) {
-      resumeInput.owner = user!.username;
-    }
-
     const resume = this.resumeRepository.create(resumeInput);
 
     if (resumeInput.uuid) {
       const existingResume = await this.resumeRepository.findOne({ uuid: resumeInput.uuid });
       if (existingResume) {
-        resume.id = existingResume.id;
-        return this.resumeRepository.save(resume);
+        if (existingResume.owner === user!.username) {
+          resume.id = existingResume.id;
+          return this.resumeRepository.save(resume);
+        } else {
+          throw new ForbiddenError('Unauthorized action!');
+        }
       }
     }
+
+    resume.owner = user!.username;
 
     // when creating a new resume, set default styles
     if (!resumeInput.styles) {

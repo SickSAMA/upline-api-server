@@ -23,6 +23,10 @@ export class Resume {
 
   @Field(() => String)
   @Column({ type: 'text', default: '' })
+  resume_name: string;
+
+  @Field(() => String)
+  @Column({ type: 'text', default: '' })
   name: string;
 
   @Field(() => String)
