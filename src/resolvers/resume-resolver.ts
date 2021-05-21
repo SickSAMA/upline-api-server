@@ -1,6 +1,6 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-express';
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from 'type-graphql';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { Resume } from '../entities/resume';
@@ -34,7 +34,14 @@ export class ResumeResolver {
   resumes(
     @Ctx() { user }: RequestContext,
   ): Promise<ResumeOutput[]> {
-    return this.resumeRepository.find({ owner: user!.username });
+    return this.resumeRepository.find({
+      where: {
+        owner: user!.username,
+      },
+      order: {
+        updated_at: 'DESC',
+      },
+    });
   }
 
   @Authorized()
@@ -42,7 +49,7 @@ export class ResumeResolver {
   async saveResume(
     @Arg('resume') resumeInput: ResumeInput,
     @Ctx() { user }: RequestContext,
-  ): Promise<Resume> {
+  ): Promise<ResumeOutput> {
     const resume = this.resumeRepository.create(resumeInput);
 
     if (resumeInput.uuid) {
@@ -58,9 +65,12 @@ export class ResumeResolver {
     }
 
     resume.owner = user!.username;
-
+    // set default resume_name
+    if (!resume.resume_name) {
+      resume.resume_name = 'New resume';
+    }
     // when creating a new resume, set default styles
-    if (!resumeInput.styles) {
+    if (!resume.styles) {
       resume.styles = defaultResumeStyleInput;
     }
 
@@ -69,5 +79,15 @@ export class ResumeResolver {
      * is not efficient for 'update' operation because 'save' will select by id again.
      */
     return this.resumeRepository.save(resume);
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async deleteResume(
+    @Arg('uuid', () => String) uuid: string,
+    @Ctx() { user }: RequestContext,
+  ): Promise<boolean> {
+    await this.resumeRepository.delete({ uuid, owner: user!.username });
+    return true;
   }
 }
