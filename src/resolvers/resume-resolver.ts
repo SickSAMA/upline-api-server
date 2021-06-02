@@ -1,6 +1,6 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-express';
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from 'type-graphql';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { Resume } from '../entities/resume';

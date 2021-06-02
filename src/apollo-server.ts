@@ -9,6 +9,7 @@ import { RequestContext } from './types/RequestContext';
 import { RecipeResolver } from './resolvers/recipe-resolver';
 import { RateResolver } from './resolvers/rate-resolver';
 import { ResumeResolver } from './resolvers/resume-resolver';
+import { FeedbackResolver } from './resolvers/feedback-resolver';
 
 import { DEPLOYMENT_ENV } from './configs/env';
 import { getORMConfig } from './configs/ormconfig';
@@ -21,7 +22,7 @@ export async function createApolloServer(): Promise<ApolloServer> {
   await seedDatabase();
 
   const schema = await TypeGraphQL.buildSchema({
-    resolvers: [RecipeResolver, RateResolver, ResumeResolver],
+    resolvers: [RecipeResolver, RateResolver, ResumeResolver, FeedbackResolver],
     container: Container,
     authChecker,
   });

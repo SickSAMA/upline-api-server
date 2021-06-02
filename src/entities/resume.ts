@@ -18,7 +18,7 @@ export class Resume {
   uuid: string;
 
   @Field(() => String)
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: '' })
   owner: string;
 
   @Field(() => String)

@@ -28,10 +28,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && npm run prettify && lint-staged"
+      "pre-commit": "npm run test && lint-staged"
     }
   },
   "lint-staged": {
+    "*": "npm run prettify",
     "*.ts": "eslint --fix"
   },
   "repository": "https://github.com/SickSAMA/upline-api-server",
